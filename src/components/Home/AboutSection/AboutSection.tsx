@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { motion, Variants } from 'framer-motion';
 
 const AboutSection = () => {
-  // Pas besoin de montserratClass ici si appliqué globalement dans layout.tsx
-  // const montserratClass = "font-[var(--font-montserrat)]";
 
-  // Variantes d'animation pour Framer Motion (inchangées)
+  // Variantes d'animation pour Framer Motion
   const sectionVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -60,7 +58,7 @@ const AboutSection = () => {
           <motion.div className="md:col-span-3 space-y-4" variants={itemVariants}>
             <motion.h2
               // Titre en rouge
-              className={`text-3xl sm:text-4xl font-bold mb-6 text-[#e30e1b] leading-tight`}
+              className={`text-xl sm:text-3xl font-bold mb-6 text-[#e30e1b] leading-tight`}
               variants={itemVariants}
             >
               À Propos de Moi

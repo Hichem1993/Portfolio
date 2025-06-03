@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-
-// Importations ShadCN UI
+// ShadCN UI
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -25,7 +24,7 @@ const navItems: NavItemConfig[] = [
   { label: "Accueil", href: "/" },
   { label: "À propos", href: "/a-propos" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Boutique", href: "/boutique" },
+  { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -49,12 +48,11 @@ const Navbar = () => {
     <nav className={`
       bg-black
       sticky top-0 z-50
-      font-[var(--font-montserrat)] // Si Montserrat n'est pas global via layout
+      font-[var(--font-montserrat)]
       shadow-[0_4px_10px_0px_rgba(255,255,255,0.15)]
     `}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
 
           {/* Section Logo */}
           <div className="flex-shrink-0">
@@ -70,24 +68,20 @@ const Navbar = () => {
             </Link>
           </div>
 
-
-          {/* Section Menu Desktop avec ShadCN UI NavigationMenu */}
-          <div className="hidden md:block">
+          {/* Section Menu Desktop avec Connexion */}
+          <div className="hidden md:flex items-center space-x-4">
             <NavigationMenu>
-              <NavigationMenuList className="space-x-1"> 
+              <NavigationMenuList className="space-x-1">
                 {navItems.map((item) => (
                   <NavigationMenuItem key={item.label}>
-                    <NavigationMenuLink asChild 
+                    <NavigationMenuLink asChild
                       className={cn(
-                        navigationMenuTriggerStyle(), 
+                        navigationMenuTriggerStyle(),
                         "uppercase text-sm font-medium",
-                        // Surcharges pour votre thème sombre et couleurs personnalisées:
-                        "bg-transparent hover:bg-transparent focus:bg-transparent", // Enlève les fonds par défaut de ShadCN
-                        "text-white", // Texte blanc par défaut
+                        "bg-transparent hover:bg-transparent focus:bg-transparent",
+                        "text-white",
                         {
-                          // Lien actif
                           "bg-[#e30e1b] text-white hover:text-white hover:bg-[#e30e1b]": pathname === item.href,
-                          // Lien non actif - effet au survol
                           "hover:text-[#e30e1b] focus:text-[#e30e1b]": pathname !== item.href,
                         }
                       )}
@@ -98,16 +92,22 @@ const Navbar = () => {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
+
+            {/* Bouton Connexion */}
+            <Link
+              href="/connexion"
+              className="text-white border border-white px-4 py-2 rounded-md text-sm uppercase hover:bg-white hover:text-black transition"
+            >
+              Connexion
+            </Link>
           </div>
 
-
-          {/* Bouton Menu Burger pour Mobile (logique existante) */}
+          {/* Bouton Menu Burger pour Mobile */}
           <div className="md:hidden flex items-center">
             <button
               type="button"
               onClick={toggleMobileMenu}
-              className="p-2 rounded-md text-white hover:text-[#e30e1b] focus:outline-none focus:ring-2 focus:ring-inset
-              focus:ring-[#e30e1b] cursor-pointer"
+              className="p-2 rounded-md text-white hover:text-[#e30e1b] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e30e1b]"
               aria-controls="mobile-menu"
               aria-expanded={isMobileMenuOpen}
             >
@@ -126,8 +126,7 @@ const Navbar = () => {
         </div>
       </div>
 
-
-      {/* Section Menu Mobile (logique existante, mais on peut styler les liens comme ShadCN) */}
+      {/* Section Menu Mobile */}
       <div
         className={`
           md:hidden transition-all duration-300 ease-in-out overflow-hidden bg-black border-t border-gray-800
@@ -155,6 +154,17 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+
+          {/* Lien Connexion pour mobile */}
+          <li>
+            <Link
+              href="/connexion"
+              onClick={handleMobileLinkClick}
+              className="block px-3 py-2 rounded-md text-base font-medium uppercase text-white border border-white text-center hover:bg-white hover:text-black transition"
+            >
+              Connexion
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
