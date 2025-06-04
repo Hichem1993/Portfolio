@@ -6,7 +6,7 @@ import { faLinkedinIn, faBehance, faGithub } from "@fortawesome/free-brands-svg-
 
 export function Footer() {
   return (
-    <footer className="w-full bg-black text-white py-8 md:py-12">
+    <footer className="w-full bg-black text-white py-8 md:py-12 shadow-[0_-4px_10px_0px_rgba(255,255,255,0.15)]">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center px-14">
           <div className="mb-6 md:mb-0">
