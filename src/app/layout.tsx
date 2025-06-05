@@ -1,23 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Home/Navbar/Navbar";
+// ... autres imports de polices ...
 import { Montserrat } from 'next/font/google';
-import { Footer } from "@/components/Home/Footer/Footer";
+import "./globals.css";
+import Navbar from "@/components/Home/Navbar/Navbar"; // Ajustez le chemin
+import { Footer } from "@/components/Home/Footer/Footer"; // Ajustez le chemin
+import { AuthProvider } from "@/contexts/AuthContext"; // <--- AJOUTÉ (Ajustez le chemin)
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+// ... configuration des polices (Geist, Montserrat) ...
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-montserrat',
 });
 
 
@@ -32,13 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${montserrat.className} ${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="fr" className={`${montserrat.variable} /* ...autres variables de police... */`}>
       <body className="bg-black text-white">
-        <Navbar />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <AuthProvider> {/* <--- ENVELOPPEMENT */}
+          <Navbar />
+          <main>
+            {children}
+          </main>
+          <Footer />
+        </AuthProvider> {/* <--- FIN ENVELOPPEMENT */}
       </body>
     </html>
   );
