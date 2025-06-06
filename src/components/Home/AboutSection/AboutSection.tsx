@@ -65,17 +65,17 @@ const AboutSection = () => {
             </motion.h2>
             {/* Texte principal */}
             <motion.p className={`text-base text-gray-200 leading-relaxed`} variants={itemVariants}>
-              UI Designer & Développeur Front-End avec <span className="font-semibold text-[#e30e1b]">9 ans d'expérience</span>,
-              passionné par la création d'interfaces utilisateur (UI) intuitives et l'intégration web performante.
-            </motion.p>
-            <motion.p className={`text-base text-gray-200 leading-relaxed`} variants={itemVariants}>
-              Autonome et rigoureux, je maîtrise les aspects de conception visuelle et le développement front-end
-              (Next.js, ReactJS).
-            </motion.p>
-            <motion.p className={`text-base text-gray-200 mb-4 leading-relaxed`} variants={itemVariants}>
-              Je recherche une opportunité pour mettre à profit mes compétences et mon expertise au sein d'une
-              équipe dynamique, afin de contribuer à des projets stimulants.
-            </motion.p>
+            UI Designer & Développeur Front-End avec <span className="font-semibold text-[#e30e1b]">9 ans d'expérience</span>,
+            je conçois des interfaces utilisateur modernes et performantes, en alliant design intuitif et intégration web de qualité.
+          </motion.p>
+          <motion.p className={`text-base text-gray-200 leading-relaxed`} variants={itemVariants}>
+            Curieux et rigoureux, je maîtrise aussi bien la conception visuelle que le développement front-end (Next.js, ReactJS, Tailwind),
+            tout en veillant à la cohérence et à l’expérience utilisateur.
+          </motion.p>
+          <motion.p className={`text-base text-gray-200 mb-4 leading-relaxed`} variants={itemVariants}>
+            Je mets mon expertise au service de projets digitaux ambitieux, avec une approche centrée utilisateur,
+            une attention au détail et une réelle passion pour l’innovation web.
+          </motion.p>
             <motion.div variants={itemVariants} className="mt-8">
               <Button
                 asChild
