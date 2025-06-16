@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Home/Navbar/Navbar"; // Ajustez le chemin
 import { Footer } from "@/components/Home/Footer/Footer"; // Ajustez le chemin
 import { AuthProvider } from "@/contexts/AuthContext"; // <--- AJOUTÉ (Ajustez le chemin)
+import { CartProvider } from "@/contexts/CartContext";
 
 // ... configuration des polices (Geist, Montserrat) ...
 const montserrat = Montserrat({
@@ -27,13 +28,15 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${montserrat.variable} /* ...autres variables de police... */`}>
       <body className="bg-black text-white">
-        <AuthProvider> {/* <--- ENVELOPPEMENT */}
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <Footer />
-        </AuthProvider> {/* <--- FIN ENVELOPPEMENT */}
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <main>
+              {children}
+            </main>
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
