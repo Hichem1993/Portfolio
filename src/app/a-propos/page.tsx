@@ -1,3 +1,5 @@
+import AboutEducation from "@/components/a-propos/about-education"
+import AboutSkills from "@/components/a-propos/about-skills"
 import AboutExperience from "@/components/a-propos/Experience"
 import AboutHero from "@/components/a-propos/hero"
 import AboutProfile from "@/components/a-propos/Profil"
@@ -16,6 +18,8 @@ export default function AboutPage() {
         <AboutHero />
         <AboutProfile />
         <AboutExperience />
+        <AboutSkills />
+        <AboutEducation />
     </div>
   )
 }

@@ -64,10 +64,10 @@ const experiences = [
 
 export default function AboutExperience() {
   return (
-    <section className="py-20 bg-neutral-900">
+    <section className="py-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 font-[var(--font-montserrat)] text-[#e30e1b]">
+          <h2 className="text-4xl font-bold text-center mb-12 font-[var(--font-montserrat)]">
             EXPÉRIENCES PROFESSIONNELLES
           </h2>
 
@@ -89,22 +89,14 @@ export default function AboutExperience() {
                         <Calendar size={14} className="mr-1" />
                         {exp.period}
                       </Badge>
-                      <Badge variant="outline" className="border-gray-400 text-gray-700 font-[var(--font-montserrat)]">
-                        <MapPin size={14} className="mr-1" />
-                        {exp.location}
-                      </Badge>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {exp.tasks.map((task, taskIndex) => (
-                      <li
-                        key={taskIndex}
-                        className="flex items-start gap-3 text-gray-700 font-[var(--font-montserrat)]"
-                      >
-                        <span className="text-[#e30e1b] mt-2">•</span>
-                        <span>{task}</span>
+                      <li key={taskIndex} className="text-gray-700 font-[var(--font-montserrat)]">
+                        {task}
                       </li>
                     ))}
                   </ul>

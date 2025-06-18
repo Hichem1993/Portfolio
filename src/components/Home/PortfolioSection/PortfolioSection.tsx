@@ -14,29 +14,34 @@ import { Button } from "@/components/ui/button"
 export default function PortfolioSection() {
   const projects = [
     {
-      title: "Refonte site e-commerce",
-      category: "Web Design",
-      image: "/images/project1.jpg",
+      title: "Affiche publicitaire",
+      category: "Impression",
+      image: "/images/affiche.jpg",
     },
     {
-      title: "Illustration couverture livre",
+      title: "Création de site web",
+      category: "Design graphique et intégration web",
+      image: "/images/website.png",
+    },
+    {
+      title: "Logo en arabe",
+      category: "Charte graphique",
+      image: "/images/logo.jpg",
+    },
+    {
+      title: "Application Mobile",
+      category: "Design d'Interface (UI)",
+      image: "/images/app-mobile.jpg",
+    },
+    {
+      title: "Papier à en-tête",
       category: "Illustration",
-      image: "/images/project2.jpg",
+      image: "/images/papier-entete.webp",
     },
     {
-      title: "Dashboard UX",
-      category: "UI/UX",
-      image: "/images/project3.jpg",
-    },
-    {
-      title: "Portfolio personnel",
-      category: "Développement Front-end",
-      image: "/images/project4.jpg",
-    },
-    {
-      title: "Logo marque textile",
-      category: "Branding",
-      image: "/images/project5.jpg",
+      title: "Maquette de site web",
+      category: "Design d'Interface (UI)",
+      image: "/images/maquette-web.jpg",
     },
   ]
 
@@ -86,7 +91,7 @@ export default function PortfolioSection() {
           size="default"
           className="mt-8 bg-[#e30e1b] hover:bg-red-700 text-white text-base px-6 py-3 rounded-md transition duration-300"
         >
-          <Link href="/services">Voir tous mes projets</Link>
+          <Link href="/portfolio">Voir tous mes projets</Link>
         </Button>
       </div>
     </section>
