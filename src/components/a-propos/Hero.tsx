@@ -28,7 +28,7 @@ export default function AboutHero() {
             {/* Téléphone avec icône et lien cliquable */}
             <div className="flex items-center gap-2">
               <Phone size={20} className="text-[#e30e1b]" />
-              <a href="tel:0744967207" className="hover:text-white transition-colors">
+              <a href="tel:0744967207" className="hover:text-gray-500 transition-colors">
                 07 44 96 72 07
               </a>
             </div>
@@ -36,7 +36,7 @@ export default function AboutHero() {
             {/* Email avec icône et lien cliquable */}
             <div className="flex items-center gap-2">
               <Mail size={20} className="text-[#e30e1b]" />
-              <a href="mailto:benayedhicham@gmail.com" className="hover:text-white transition-colors">
+              <a href="mailto:benayedhicham@gmail.com" className="hover:text-gray-500 transition-colors">
                 benayedhicham@gmail.com
               </a>
             </div>

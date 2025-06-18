@@ -185,7 +185,7 @@ const ServiceDetailPage = ({ params }: ServiceDetailPageProps) => {
 
           {/* Colonne Informations et Actions */}
           <div className="flex flex-col space-y-6 py-4">
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight">{service.nom}</h1>
+            <h1 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight">{service.nom}</h1>
             <div className="text-gray-300 prose prose-invert prose-sm lg:prose-base max-w-none leading-relaxed" dangerouslySetInnerHTML={{ __html: service.description }} />
             <p className="text-4xl font-bold text-[#e30e1b] my-4">{parseFloat(service.prix).toFixed(2)} €</p>
 

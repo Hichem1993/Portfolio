@@ -178,7 +178,7 @@ const ServicesPage = ({ params }: ServicesPageProps) => {
           </div>
         )}
 
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 text-center relative">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center tracking-tight mb-8">
           <span className="bg-gradient-to-r from-[#e30e1b] to-red-500 bg-clip-text text-transparent">
             {pageData.pageTitle}
           </span>

@@ -7,7 +7,7 @@ const testimonials = [
   {
     name: "Sarah Dupont",
     role: "Fondatrice de GreenMood",
-    avatar: "/images/avatar1.jpg",
+    avatar: "/images/avatar-femme.png",
     rating: 5,
     quote:
       "Une collaboration exceptionnelle ! Le design est à la fois moderne et fonctionnel. Je recommande à 100%.",
@@ -15,7 +15,7 @@ const testimonials = [
   {
     name: "Julien Martin",
     role: "CTO chez StartTech",
-    avatar: "/images/avatar2.jpg",
+    avatar: "/images/avatar-homme.png",
     rating: 4,
     quote:
       "Très satisfait du professionnalisme. Le projet a été livré dans les délais avec un très bon suivi.",
@@ -23,7 +23,7 @@ const testimonials = [
   {
     name: "Claire Moreau",
     role: "Responsable marketing",
-    avatar: "/images/avatar3.jpg",
+    avatar: "/images/avatar-femme.png",
     rating: 5,
     quote:
       "Créatif, rigoureux, et à l’écoute. Le résultat a dépassé nos attentes. Merci pour ce super travail !",

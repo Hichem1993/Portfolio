@@ -1,3 +1,4 @@
+import AboutExperience from "@/components/a-propos/Experience"
 import AboutHero from "@/components/a-propos/hero"
 import AboutProfile from "@/components/a-propos/Profil"
 import type { Metadata } from "next"
@@ -14,6 +15,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black text-white font-[var(--font-montserrat)]">
         <AboutHero />
         <AboutProfile />
+        <AboutExperience />
     </div>
   )
 }

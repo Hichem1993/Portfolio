@@ -1,3 +1,4 @@
+// src/app/api/user/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'; // Assurez-vous que ce chemin est correct
 import bcrypt from 'bcryptjs'; // Importez bcryptjs
