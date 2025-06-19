@@ -5,7 +5,14 @@ import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 import AdminRoute from '@/components/Auth/AdminRoute'; // Assurez-vous que ce chemin est correct
 import { cn } from '@/lib/utils'; // Assurez-vous que ce chemin est correct
-import { Users, LayoutGrid, AlignCenter, ShoppingBag as IconServices, ListOrdered, Settings, BarChart3 } from 'lucide-react'; // Ajout de ListOrdered et autres icônes
+import { 
+    Users, 
+    LayoutGrid, 
+    AlignCenter, 
+    ShoppingBag as IconServices, 
+    ListOrdered, 
+    MessageSquare // Nouvelle icône pour les contacts
+} from 'lucide-react';
 
 // Définir les types de sections possibles pour le typage fort
 export type DashboardSection = 
@@ -13,9 +20,8 @@ export type DashboardSection =
   | 'categories' 
   | 'sous-categories' 
   | 'services'
-  | 'commandes'; // NOUVELLE SECTION
-  // | 'statistiques' // Exemple pour plus tard
-  // | 'parametres';  // Exemple pour plus tard
+  | 'commandes'
+  | 'contacts'; // <--- NOUVELLE SECTION AJOUTÉE
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -29,14 +35,12 @@ const sidebarNavItems: { title: string; section: DashboardSection; icon: React.E
   { title: 'Gestion Catégories', section: 'categories', icon: LayoutGrid },
   { title: 'Gestion Sous-Catégories', section: 'sous-categories', icon: AlignCenter },
   { title: 'Gestion Services', section: 'services', icon: IconServices },
-  { title: 'Gestion des Commandes', section: 'commandes', icon: ListOrdered }, // <--- NOUVEAU LIEN AJOUTÉ
-  // Exemples de futurs liens si vous les ajoutez :
-  // { title: 'Statistiques', section: 'statistiques', icon: BarChart3 },
-  // { title: 'Paramètres', section: 'parametres', icon: Settings },
+  { title: 'Gestion des Commandes', section: 'commandes', icon: ListOrdered },
+  { title: 'Gestion des Contacts', section: 'contacts', icon: MessageSquare }, // <--- NOUVEAU LIEN AJOUTÉ
 ];
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, activeSection, setActiveSection }) => {
-  const pathname = usePathname(); // Peut être utilisé pour des logiques spécifiques si nécessaire
+  const pathname = usePathname(); 
 
   return (
     <AdminRoute>

@@ -8,7 +8,8 @@ import UserManagement from '@/components/Dashboard/UserManagement';
 import CategoryManagement from '@/components/Dashboard/CategoryManagement';
 import SubCategoryManagement from '@/components/Dashboard/SubCategoryManagement'; 
 import ServiceManagement from '@/components/Dashboard/ServiceManagement';
-import OrderManagement from '@/components/Dashboard/OrderManagement'; // <--- IMPORTER ICI
+import OrderManagement from '@/components/Dashboard/OrderManagement';
+import ContactManagement from '@/components/Dashboard/ContactManagement'; // <--- IMPORTER ICI
 
 const DashboardPage = () => {
   const [activeSection, setActiveSection] = useState<DashboardSection>('utilisateurs');
@@ -24,11 +25,13 @@ const DashboardPage = () => {
         return <SubCategoryManagement />;
       case 'services':
         return <ServiceManagement />;
-      case 'commandes': // <--- NOUVEAU CAS
+      case 'commandes':
         return <OrderManagement />;
+      case 'contacts': // <--- NOUVEAU CAS
+        return <ContactManagement />;
       default:
         console.warn("DashboardPage: Section active inconnue:", activeSection);
-        return <UserManagement />; 
+        return <UserManagement />; // Fallback sur la gestion des utilisateurs
     }
   };
 
