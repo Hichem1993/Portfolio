@@ -157,7 +157,7 @@ const Navbar = () => {
                                   <NavigationMenuLink asChild>
                                     <Link
                                       href={`/services/${mainCat.slugs}/${subCat.slugs}`}
-                                      className="block p-2 rounded-md text-sm text-gray-300 hover:bg-[#e30e1b] hover:text-white transition-colors"
+                                      className="block p-2 rounded-md text-sm text-gray-300 hover:bg-[#e30e1b] hover:text-black transition-colors"
                                     >
                                       {subCat.nom}
                                     </Link>

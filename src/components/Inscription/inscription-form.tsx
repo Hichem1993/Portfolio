@@ -2,11 +2,12 @@
 
 import type React from "react"
 import { useState } from "react"
-import { Button } from "@/components/ui/button" // Ajustez le chemin
-import { Input } from "@/components/ui/input"   // Ajustez le chemin
-import { Label } from "@/components/ui/label"   // Ajustez le chemin
+import { Button } from "@/components/ui/button" // Composant bouton personnalisé
+import { Input } from "@/components/ui/input"   // Composant input personnalisé
+import { Label } from "@/components/ui/label"   // Composant label personnalisé
 
 export function RegisterForm() {
+  // État local pour stocker les données du formulaire
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -14,27 +15,33 @@ export function RegisterForm() {
     password: "",
     confirmPassword: "",
   })
+
+  // État pour afficher un message de retour (succès ou erreur)
   const [feedback, setFeedback] = useState<string | null>(null)
+
+  // État pour indiquer si le formulaire est en cours de soumission
   const [isLoading, setIsLoading] = useState(false);
 
-
+  // Fonction qui met à jour formData quand un champ change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
+  // Fonction appelée à la soumission du formulaire
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFeedback(null);
-    setIsLoading(true);
+    e.preventDefault(); // Empêche le rechargement de la page
+    setFeedback(null); // Réinitialise le message de feedback
+    setIsLoading(true); // Active le chargement
 
-
+    // Vérifie que les deux mots de passe correspondent
     if (formData.password !== formData.confirmPassword) {
       setFeedback("Les mots de passe ne correspondent pas.");
       setIsLoading(false);
-      return;
+      return; // Stoppe la soumission si les mots de passe diffèrent
     }
 
     try {
+      // Envoie les données du formulaire à l'API /api/register en POST
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -46,18 +53,22 @@ export function RegisterForm() {
         }),
       });
 
-      const result = await response.json();
+      const result = await response.json(); // Récupère la réponse JSON
 
       if (response.ok) {
+        // Si inscription réussie, affiche message et réinitialise le formulaire
         setFeedback("Inscription réussie ! Vous pouvez maintenant vous connecter.");
         setFormData({ nom: "", prenom: "", email: "", password: "", confirmPassword: "" });
       } else {
+        // Sinon, affiche l'erreur retournée ou un message générique
         setFeedback(result.error || "Une erreur est survenue lors de l'inscription.");
       }
     } catch (error) {
+      // En cas d'erreur réseau ou autre, log et affiche message d'erreur serveur
       console.error("Erreur d'inscription:", error);
       setFeedback("Erreur serveur.");
     } finally {
+      // Désactive l'état de chargement dans tous les cas
       setIsLoading(false);
     }
   }

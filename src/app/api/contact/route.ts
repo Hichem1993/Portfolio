@@ -16,12 +16,15 @@ export interface ContactMessage extends RowDataPacket {
   date_envoyee: Date | string; 
 }
 
-// Votre fonction POST existante (inchangée)
+// Déclare une fonction asynchrone exportée, qui sera appelée lors d'une requête HTTP POST
 export async function POST(req: NextRequest) {
   try {
+    // Récupère le corps de la requête en le convertissant depuis du JSON
     const body = await req.json();
+    // Déstructure les champs attendus depuis le corps de la requête
     const { nom, prenom, email, telephone, objet, message } = body;
 
+    // Vérifie que tous les champs requis sont présents
     if (!nom || !prenom || !email || !telephone || !objet || !message) {
       return NextResponse.json(
         { error: 'Champs obligatoires manquants.' },
@@ -57,9 +60,6 @@ export async function GET(req: NextRequest) {
       'SELECT id, nom, prenom, telephone, objet, email, message, date_envoyee FROM contact ORDER BY date_envoyee DESC' // Les plus récents en premier
     );
     
-    // NextResponse.json s'occupera de sérialiser les objets Date en chaînes ISO.
-    // Le client (ContactManagement.tsx) s'occupera du formatage final pour l'affichage.
-    // Aucune transformation de map n'est strictement nécessaire ici si le client gère la date.
     const messages = messagesFromDB; 
 
     console.log(`API GET /api/contact: ${messages.length} messages trouvés.`);

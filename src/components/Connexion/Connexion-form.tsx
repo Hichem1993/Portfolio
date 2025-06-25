@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useAuth } from "@/contexts/AuthContext" // <--- IMPORTER useAuth
+import { useAuth } from "@/contexts/AuthContext"
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -54,47 +54,22 @@ export function LoginForm() {
     }
   }
 
-  // ... reste du JSX ...
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Email */}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-gray-900 font-semibold">Email</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full text-black"
-          placeholder="votre@email.com"
-          required
-          disabled={isLoading}
-        />
+        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} className="w-full text-black" placeholder="votre@email.com" required disabled={isLoading} />
       </div>
 
       {/* Mot de passe */}
       <div className="space-y-2">
         <Label htmlFor="password" className="text-gray-900 font-semibold">Mot de passe</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full text-black"
-          placeholder="••••••••"
-          required
-          disabled={isLoading}
-        />
+        <Input id="password" name="password" type="password" value={formData.password} onChange={handleChange} className="w-full text-black" placeholder="••••••••" required disabled={isLoading} />
       </div>
 
       {/* Bouton de connexion */}
-      <Button
-        type="submit"
-        className="w-full bg-[#e30e1b] hover:bg-[#c50d18] text-white py-3 text-lg font-semibold"
-        disabled={isLoading}
-      >
+      <Button type="submit" className="w-full bg-[#e30e1b] hover:bg-[#c50d18] text-white py-3 text-lg font-semibold" disabled={isLoading}>
         {isLoading ? "Connexion en cours..." : "Se connecter"}
       </Button>
 

@@ -2,10 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link'; 
 import { Button } from "@/components/ui/button"; 
 
-
 const Banner = () => {
   const montserratClass = "font-[var(--font-montserrat)]";
-
 
   return (
     <section className={`relative h-[95vh] min-h-[450px] max-h-[650px] flex items-center justify-center text-center text-white overflow-hidden ${montserratClass}`}>
