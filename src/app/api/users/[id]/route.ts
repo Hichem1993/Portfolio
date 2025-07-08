@@ -4,7 +4,7 @@ import { db } from '@/lib/db'; // Assurez-vous que ce chemin est correct
 import bcrypt from 'bcryptjs'; // Importez bcryptjs
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
-
+// Fonction modif
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const userId = params.id;
   console.log(`API: Requête PUT /api/users/${userId} reçue`);
@@ -40,6 +40,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
+// Fonction Delete
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const userIdToDelete = params.id;
   console.log(`API: Requête DELETE /api/users/${userIdToDelete} reçue`);

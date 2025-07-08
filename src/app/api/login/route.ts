@@ -53,9 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Exclut le mot de passe de la réponse retournée au client
-    const { password, ...userToReturn } = userFromDb // Si la colonne est 'password'
-    // Si votre colonne s'appelle 'password_hash', utilisez :
-    // const { password_hash, ...userToReturn } = userFromDb
+    const { password, ...userToReturn } = userFromDb 
 
     // Envoie une réponse JSON avec les infos de l'utilisateur (hors mot de passe)
     return NextResponse.json({
@@ -65,7 +63,7 @@ export async function POST(req: NextRequest) {
     })
 
   } catch (error) {
-    // En cas d'erreur inattendue (ex: problème de DB), renvoie une erreur serveur
+    // En cas d'erreur inattendue (ex: problème de BDD), renvoie une erreur serveur
     console.error('Erreur de connexion API:', error)
     return NextResponse.json({ error: 'Erreur serveur.' }, { status: 500 })
   }

@@ -244,7 +244,7 @@ const SubCategoryManagement = () => {
             </div>
             {formError && <p className="text-sm text-red-400 pt-1">{formError}</p>}
             <DialogFooter className="sm:justify-start pt-4">
-              <DialogClose asChild><Button type="button" variant="outline" className="border-gray-600 hover:bg-gray-700" disabled={isSubmitting}>Annuler</Button></DialogClose>
+              <DialogClose asChild><Button type="button" variant="outline" className="border-gray-600 text-black hover:text-white hover:bg-gray-700" disabled={isSubmitting}>Annuler</Button></DialogClose>
               <Button type="submit" className="bg-blue-600 hover:bg-blue-500" disabled={isSubmitting}>{isSubmitting ? (isEditing ? "Sauvegarde..." : "Ajout...") : (isEditing ? "Sauvegarder" : "Ajouter")}</Button>
             </DialogFooter>
           </form>

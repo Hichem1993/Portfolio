@@ -16,7 +16,6 @@ interface ServiceDetail extends RowDataPacket {
   main_category_slugs: string; // Slug de la catégorie principale
   sub_category_nom: string;    // Nom de la sous-catégorie
   sub_category_slugs: string;  // Slug de la sous-catégorie
-  // Ajoutez d'autres champs si vous en avez, comme des options, des spécifications, etc.
 }
 
 export async function GET(
@@ -50,7 +49,7 @@ export async function GET(
       JOIN sous_categorie sc ON s.id_sous_categorie = sc.id
       JOIN categories c ON sc.id_categorie = c.id
       WHERE s.slugs = ? AND s.est_disponible = TRUE 
-    `; // On ne récupère que les services disponibles
+    `; 
 
     const [rows] = await db.execute<ServiceDetail[]>(query, [serviceSlug]);
 

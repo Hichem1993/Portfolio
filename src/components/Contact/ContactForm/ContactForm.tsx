@@ -73,93 +73,39 @@ export function ContactForm() {
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="nom" className="text-sm font-semibold text-gray-900">Nom</Label>
-          <Input
-            id="nom"
-            name="nom"
-            type="text"
-            value={formData.nom}
-            onChange={handleChange}
-            className="w-full text-black"
-            required
-          />
+          <Input id="nom" name="nom" type="text" value={formData.nom} onChange={handleChange} className="w-full text-black" required />
         </div>
         <div className="space-y-2">
           <Label htmlFor="prenom" className="text-sm font-semibold text-gray-900">Prénom</Label>
-          <Input
-            id="prenom"
-            name="prenom"
-            type="text"
-            value={formData.prenom}
-            onChange={handleChange}
-            className="w-full text-black"
-            required
-          />
+          <Input id="prenom" name="prenom" type="text" value={formData.prenom} onChange={handleChange} className="w-full text-black" required />
         </div>
       </div>
-
       {/* Email */}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-semibold text-gray-900">Email *</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full text-black"
-          required
-        />
+        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} className="w-full text-black" required />
       </div>
-
       {/* Téléphone */}
       <div className="space-y-2">
         <Label htmlFor="telephone" className="text-sm font-semibold text-gray-900">Téléphone</Label>
-        <Input
-          id="telephone"
-          name="telephone"
-          type="tel"
-          value={formData.telephone}
-          onChange={handleChange}
-          className="w-full text-black"
-        />
+        <Input id="telephone" name="telephone" type="tel" value={formData.telephone} onChange={handleChange} className="w-full text-black" />
       </div>
-
       {/* Objet */}
       <div className="space-y-2">
         <Label htmlFor="objet" className="text-sm font-semibold text-gray-900">Objet</Label>
-        <Input
-          id="objet"
-          name="objet"
-          type="text"
-          value={formData.objet}
-          onChange={handleChange}
-          className="w-full text-black"
-          required
-        />
+        <Input id="objet" name="objet" type="text" value={formData.objet} onChange={handleChange} className="w-full text-black" required />
       </div>
-
       {/* Message */}
       <div className="space-y-2">
         <Label htmlFor="message" className="text-sm font-semibold text-gray-900">Message</Label>
-        <Textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full min-h-[120px] text-black"
-          placeholder="Décrivez votre projet ou votre demande..."
-          required
-        />
+        <Textarea id="message" name="message" value={formData.message} onChange={handleChange} className="w-full min-h-[120px] text-black" placeholder="Décrivez votre projet ou votre demande..." required />
       </div>
-
       {/* Bouton d'envoi */}
       <Button
         type="submit"
-        className="w-full bg-[#e30e1b] hover:bg-[#c50d18] text-white py-3 text-lg font-semibold"
-      >
+        className="w-full bg-[#e30e1b] hover:bg-[#c50d18] text-white py-3 text-lg font-semibold">
         Envoyer le message
       </Button>
-
       {/* Message de retour sous le bouton */}
       {feedbackMessage && (
         <p className="mt-2 text-center text-sm text-gray-700">

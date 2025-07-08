@@ -27,7 +27,6 @@ export async function GET(req: NextRequest) {
 
   try {
     // Requête SQL pour récupérer les services avec les informations des catégories jointes
-    // Utilise les noms de colonnes exacts de votre base de données (slugs, id_categorie, id_sous_categorie)
     let servicesQuery = `
       SELECT 
         s.id, 
@@ -81,8 +80,6 @@ export async function GET(req: NextRequest) {
             const subCatName = subCatInfoRows[0].nom;
             pageTitle = `${subCatName} - ${mainCatName}`; // Titre plus spécifique
           } else {
-            // La sous-catégorie n'existe pas pour cette catégorie principale,
-            // mais la catégorie principale existe. On garde le titre de la catégorie principale.
             // Les services filtrés seront vides si la sous-cat n'existe pas avec ce mainCat.
             console.warn(`API /api/services/list: Sous-catégorie slug "${subCategorySlug}" non trouvée ou n'appartient pas à la catégorie "${mainCategorySlug}". Titre utilisé: "${pageTitle}".`);
           }

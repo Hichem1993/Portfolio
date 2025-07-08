@@ -1,15 +1,20 @@
 // src/components/Home/Navbar/Navbar.tsx
-"use client"
+"use client" // Ce fichier est un composant client-side (React côté navigateur)
 
-// Importation des modules React, Next.js et contextes
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
+
+// Composants et outils de Next.js
+import Link from "next/link" // Pour créer des liens de navigation
+import Image from "next/image" // Pour afficher des images optimisées
+import { usePathname } from "next/navigation" // Pour récupérer l’URL courante
+
+// Hooks React
 import { useState, useEffect, useMemo } from "react"
+
+// Contextes personnalisés (authentification & panier)
 import { useAuth } from "@/contexts/AuthContext"
 import { useCart } from "@/contexts/CartContext"
 
-// Importation des composants UI (ShadCN) et des icônes
+// Composants UI & utilitaires (ShadCN + icônes)
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -19,16 +24,20 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils" // Pour combiner des classes conditionnellement
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, UserCircle } from "lucide-react" // ← Ajout de UserCircle
+import { ShoppingCart, UserCircle } from "lucide-react" // Icônes SVG
 
-// Types pour les catégories de services
+// --- TYPES ---
+
+// Type pour une sous-catégorie de service
 interface ServiceSubCategory {
   id: number
   nom: string
   slugs: string
 }
+
+// Type pour une catégorie principale de service
 interface ServiceMainCategory {
   id: number
   nom: string
@@ -36,24 +45,30 @@ interface ServiceMainCategory {
   sous_categories: ServiceSubCategory[]
 }
 
-// Liens de navigation principaux
+// Liens principaux visibles dans la navbar
 const navItemsBase = [
   { label: "Accueil", href: "/" },
   { label: "À propos", href: "/a-propos" },
   { label: "Portfolio", href: "/portfolio" },
 ]
 
-const Navbar = () => {
-  const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+// --- COMPOSANT NAVBAR ---
 
+const Navbar = () => {
+  const pathname = usePathname() // Récupère le chemin actuel pour appliquer les styles actifs
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // État pour le menu mobile
+
+  // Infos sur l'utilisateur connecté depuis le context d'auth
   const { user, logout, isLoading: authIsLoading, isAdmin } = useAuth()
+
+  // Infos sur le panier
   const { cartItems, isCartInitiallyLoaded } = useCart()
 
+  // État pour stocker les catégories de service dynamiques
   const [serviceNav, setServiceNav] = useState<ServiceMainCategory[]>([])
   const [serviceNavLoading, setServiceNavLoading] = useState(true)
 
-  // Récupère les données de navigation des services depuis une API
+  // Récupération des catégories de service depuis une API
   useEffect(() => {
     const fetchServiceNavigation = async () => {
       try {
@@ -73,12 +88,13 @@ const Navbar = () => {
     fetchServiceNavigation()
   }, [])
 
-  // Ferme le menu mobile lors d’un changement de page
+  // Ferme le menu mobile à chaque changement de page
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
 
-  // Gestionnaires
+  // --- HANDLERS (gestionnaires) ---
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
   const handleMobileLinkClick = () => setIsMobileMenuOpen(false)
   const handleLogout = () => {
@@ -86,7 +102,7 @@ const Navbar = () => {
     setIsMobileMenuOpen(false)
   }
 
-  // Calcul du nombre total d’articles dans le panier
+  // Calcule dynamiquement le nombre total d'articles dans le panier
   const totalCartItems = useMemo(() => {
     if (!isCartInitiallyLoaded) return 0
     return cartItems.reduce((count, item) => count + item.quantite, 0)
@@ -96,7 +112,8 @@ const Navbar = () => {
     <nav className="bg-black text-white sticky top-0 z-50 font-[var(--font-montserrat)] shadow-[0_4px_10px_0px_rgba(255,255,255,0.15)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          
+          {/* Logo à gauche */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
@@ -110,10 +127,12 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Menu de navigation desktop */}
+          {/* MENU DESKTOP (visible sur écran moyen et plus) */}
           <div className="hidden md:flex items-center space-x-4">
             <NavigationMenu>
               <NavigationMenuList className="space-x-1">
+                
+                {/* Liens principaux (Accueil, À propos...) */}
                 {navItemsBase.map((item) => (
                   <NavigationMenuItem key={item.label}>
                     <NavigationMenuLink
@@ -121,7 +140,7 @@ const Navbar = () => {
                       className={cn(
                         navigationMenuTriggerStyle(),
                         "uppercase text-sm font-medium bg-transparent text-white hover:bg-transparent hover:text-[#e30e1b]",
-                        { "bg-[#e30e1b] text-white": pathname === item.href },
+                        { "bg-[#e30e1b] text-white": pathname === item.href }
                       )}
                     >
                       <Link href={item.href}>{item.label}</Link>
@@ -129,14 +148,14 @@ const Navbar = () => {
                   </NavigationMenuItem>
                 ))}
 
-                {/* Dropdown Services */}
+                {/* MENU DÉROULANT : SERVICES */}
                 {!serviceNavLoading && serviceNav.length > 0 && (
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
                       className={cn(
                         navigationMenuTriggerStyle(),
                         "uppercase text-sm font-medium bg-transparent text-white hover:text-[#e30e1b]",
-                        { "bg-[#e30e1b] text-white": pathname.startsWith("/services") },
+                        { "bg-[#e30e1b] text-white": pathname.startsWith("/services") }
                       )}
                     >
                       Services
@@ -145,12 +164,14 @@ const Navbar = () => {
                       <ul className="grid gap-3 p-4 w-[600px] lg:grid-cols-2">
                         {serviceNav.map((mainCat) => (
                           <li key={mainCat.id} className="flex flex-col">
+                            {/* Lien vers la catégorie principale */}
                             <Link
                               href={`/services/${mainCat.slugs}`}
                               className="block p-3 rounded-md hover:bg-gray-800"
                             >
                               <div className="font-semibold text-md mb-1">{mainCat.nom}</div>
                             </Link>
+                            {/* Liste des sous-catégories */}
                             <ul className="mt-1 space-y-0.5 pl-3">
                               {mainCat.sous_categories.map((subCat) => (
                                 <li key={subCat.id}>
@@ -172,28 +193,30 @@ const Navbar = () => {
                   </NavigationMenuItem>
                 )}
 
-                {/* Lien Contact après Services */}
+                {/* Lien vers la page de contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     asChild
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "uppercase text-sm font-medium bg-transparent text-white hover:bg-transparent hover:text-[#e30e1b]",
-                      { "bg-[#e30e1b] text-white": pathname === "/contact" },
+                      { "bg-[#e30e1b] text-white": pathname === "/contact" }
                     )}
                   >
                     <Link href="/contact">Contact</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
-                {/* Dashboard admin si connecté */}
+                {/* Lien vers dashboard si admin connecté */}
                 {!authIsLoading && isAdmin() && (
                   <NavigationMenuItem>
                     <NavigationMenuLink
                       asChild
-                      className={cn(navigationMenuTriggerStyle(), "uppercase text-sm font-medium text-black hover:bg-[#e30e1b] hover:text-white ", {
-                        "bg-[#e30e1b]": pathname === "/dashboard",
-                      })}
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "uppercase text-sm font-medium text-black hover:bg-[#e30e1b] hover:text-white",
+                        { "bg-[#e30e1b]": pathname === "/dashboard" }
+                      )}
                     >
                       <Link href="/dashboard">Dashboard</Link>
                     </NavigationMenuLink>
@@ -202,7 +225,7 @@ const Navbar = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
-            {/* Connexion / Déconnexion */}
+            {/* Bouton Connexion / Déconnexion */}
             {!authIsLoading &&
               (user ? (
                 <Button
@@ -221,14 +244,14 @@ const Navbar = () => {
                 </Link>
               ))}
 
-            {/* Icône profil si utilisateur connecté */}
+            {/* Icône profil si connecté */}
             {user && (
               <Link href="/profil" className="relative text-white hover:text-[#e30e1b] transition-colors p-2 ml-2">
                 <UserCircle size={24} strokeWidth={1.5} />
               </Link>
             )}
 
-            {/* Icône panier si utilisateur connecté */}
+            {/* Icône panier avec compteur */}
             {user && isCartInitiallyLoaded && (
               <Link href="/panier" className="relative text-white hover:text-[#e30e1b] transition-colors p-2 ml-2">
                 <ShoppingCart size={24} strokeWidth={1.5} />
@@ -241,9 +264,9 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Menu mobile (burger + icons) */}
+          {/* --- MENU BURGER MOBILE --- */}
           <div className="md:hidden flex items-center">
-            {/* Panier */}
+            {/* Icône panier mobile */}
             {user && isCartInitiallyLoaded && (
               <Link href="/panier" className="relative text-white hover:text-[#e30e1b] transition-colors p-2 mr-1">
                 <ShoppingCart size={24} strokeWidth={1.5} />
@@ -254,17 +277,20 @@ const Navbar = () => {
                 )}
               </Link>
             )}
-            {/* Bouton burger */}
+
+            {/* Bouton hamburger */}
             <button
               onClick={toggleMobileMenu}
               className="p-2 rounded-md text-white hover:text-[#e30e1b] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#e30e1b]"
             >
               <span className="sr-only">Ouvrir le menu</span>
               {isMobileMenuOpen ? (
+                // Icône fermeture
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
+                // Icône menu
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
@@ -274,12 +300,15 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Menu mobile (responsive) */}
+      {/* --- MENU MOBILE (DÉROULANT) --- */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out overflow-y-auto bg-black border-t border-gray-800 ${isMobileMenuOpen ? "max-h-[calc(100vh-4rem)] opacity-100" : "max-h-0 opacity-0"}`}
+        className={`md:hidden transition-all duration-300 ease-in-out overflow-y-auto bg-black border-t border-gray-800 ${
+          isMobileMenuOpen ? "max-h-[calc(100vh-4rem)] opacity-100" : "max-h-0 opacity-0"
+        }`}
         id="mobile-menu"
       >
         <ul className="px-2 pt-2 pb-8 space-y-1 sm:px-3">
+          {/* Liens principaux */}
           {navItemsBase.map((item) => (
             <li key={`mobile-${item.label}`}>
               <Link
@@ -306,7 +335,7 @@ const Navbar = () => {
                       onClick={handleMobileLinkClick}
                       className={cn(
                         "block px-3 py-2 text-sm text-white",
-                        pathname.startsWith(`/services/${mainCat.slugs}`) ? "text-[#e30e1b]" : "hover:text-[#e30e1b]",
+                        pathname.startsWith(`/services/${mainCat.slugs}`) ? "text-[#e30e1b]" : "hover:text-[#e30e1b]"
                       )}
                     >
                       {mainCat.nom}
@@ -321,7 +350,7 @@ const Navbar = () => {
                               "block px-3 py-2 text-xs text-gray-300",
                               pathname === `/services/${mainCat.slugs}/${subCat.slugs}`
                                 ? "text-[#e30e1b]"
-                                : "hover:text-[#e30e1b]",
+                                : "hover:text-[#e30e1b]"
                             )}
                           >
                             - {subCat.nom}
@@ -335,7 +364,7 @@ const Navbar = () => {
             </li>
           )}
 
-          {/* Contact mobile */}
+          {/* Contact */}
           <li>
             <Link
               href="/contact"
@@ -348,7 +377,7 @@ const Navbar = () => {
             </Link>
           </li>
 
-          {/* Dashboard admin mobile */}
+          {/* Dashboard admin */}
           {!authIsLoading && isAdmin() && (
             <li>
               <Link
@@ -363,7 +392,7 @@ const Navbar = () => {
             </li>
           )}
 
-          {/* Lien vers /profil mobile */}
+          {/* Lien profil */}
           {user && (
             <li>
               <Link
@@ -376,7 +405,7 @@ const Navbar = () => {
             </li>
           )}
 
-          {/* Connexion / Déconnexion mobile */}
+          {/* Connexion / Déconnexion */}
           {!authIsLoading && (
             <li>
               {user ? (

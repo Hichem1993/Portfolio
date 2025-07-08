@@ -8,9 +8,6 @@ import TestimonialsSection from "@/components/Home/TestimonialsSection/Testimoni
 
 
 export default function HomePage() {
-  const handleTestClick = () => {
-    alert("Le bouton Shadcn UI fonctionne !");
-  };
 
   return (
       <>

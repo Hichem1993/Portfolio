@@ -11,7 +11,7 @@ import {
     AlignCenter, 
     ShoppingBag as IconServices, 
     ListOrdered, 
-    MessageSquare // Nouvelle icône pour les contacts
+    MessageSquare
 } from 'lucide-react';
 
 // Définir les types de sections possibles pour le typage fort
@@ -21,7 +21,7 @@ export type DashboardSection =
   | 'sous-categories' 
   | 'services'
   | 'commandes'
-  | 'contacts'; // <--- NOUVELLE SECTION AJOUTÉE
+  | 'contacts';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -36,7 +36,7 @@ const sidebarNavItems: { title: string; section: DashboardSection; icon: React.E
   { title: 'Gestion Sous-Catégories', section: 'sous-categories', icon: AlignCenter },
   { title: 'Gestion Services', section: 'services', icon: IconServices },
   { title: 'Gestion des Commandes', section: 'commandes', icon: ListOrdered },
-  { title: 'Gestion des Contacts', section: 'contacts', icon: MessageSquare }, // <--- NOUVEAU LIEN AJOUTÉ
+  { title: 'Gestion des Contacts', section: 'contacts', icon: MessageSquare },
 ];
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, activeSection, setActiveSection }) => {

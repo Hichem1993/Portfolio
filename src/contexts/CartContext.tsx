@@ -4,8 +4,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useAuth } from './AuthContext'; // Assurez-vous que ce chemin est correct
 
-// Interface pour un article dans le panier, utilisée DANS LE CONTEXTE
-// prix_unitaire est toujours un nombre ici.
+// Interface qui définit un article dans le panier
 export interface CartItem {
   service_id: number;
   nom: string;
@@ -22,7 +21,8 @@ export interface CartItem {
 // Le composant appelant doit s'assurer de convertir service.prix en nombre pour prix_unitaire.
 export type ServiceDataForCart = Omit<CartItem, 'quantite'>;
 
-
+// Interface pour le contexte du panier : 
+// état du panier et fonctions pour le modifier
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (serviceData: ServiceDataForCart, quantite?: number) => Promise<void>;
@@ -35,13 +35,16 @@ interface CartContextType {
   isCartInitiallyLoaded: boolean; // Indique si le premier chargement du panier est terminé
 }
 
+// Création du contexte React avec un état initial vide
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Changez ce nom de clé si vous voulez forcer une réinitialisation du panier local des utilisateurs
+// Clé utilisée pour stocker le panier local dans localStorage pour les invités
 const CART_STORAGE_KEY_GUEST = 'guestCartPortfolio_v1'; 
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    // Récupération de l'utilisateur connecté et état de chargement de l'auth
   const { user, isLoading: authIsLoading } = useAuth();
+  // État local des articles dans le panier
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartLoading, setIsCartLoading] = useState(false); 
   const [isCartInitiallyLoaded, setIsCartInitiallyLoaded] = useState(false);
@@ -172,6 +175,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [user]); // `user` est la dépendance clé ici
 
+  // Ajoute un article au panier
   const addToCart = useCallback(async (
     serviceData: ServiceDataForCart, // serviceData.prix_unitaire est déjà un nombre
     quantiteToAdd: number = 1
@@ -180,6 +184,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     console.log("CartContext: addToCart déclenché. User:", user ? `ID ${user.id}` : "Invité", "Service ID:", serviceData.service_id, "Qté:", quantiteToAdd, "Prix unitaire:", serviceData.prix_unitaire);
     
     if (user) {
+      // Pour utilisateur connecté, on fait un POST API
       await syncCartWithApi('/api/cart', 'POST', { // Utilise POST sur /api/cart
         service_id: serviceData.service_id, 
         quantite: quantiteToAdd,
@@ -193,6 +198,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         sub_category_slugs: serviceData.sub_category_slugs,
       });
     } else { 
+      // Pour invité, on met à jour localement l'état
       setIsCartLoading(true);
       setCartItems(prevItems => {
         const existingItemIndex = prevItems.findIndex(item => item.service_id === serviceData.service_id);
@@ -213,12 +219,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [user, syncCartWithApi]);
 
+  // Supprime un article du panier
   const removeFromCart = useCallback(async (serviceId: number) => {
     console.log("CartContext: removeFromCart pour serviceId:", serviceId, "User:", user ? user.id : "Invité");
     if (user) { await syncCartWithApi(`/api/cart/item/${serviceId}`, 'DELETE'); }
     else { setIsCartLoading(true); setCartItems(prev => prev.filter(item => item.service_id !== serviceId)); setIsCartLoading(false); }
   }, [user, syncCartWithApi]);
 
+  // Met à jour la quantité d'un article dans le panier
   const updateQuantity = useCallback(async (serviceId: number, quantite: number) => {
     console.log("CartContext: updateQuantity pour serviceId:", serviceId, "Qté:", quantite, "User:", user ? user.id : "Invité");
     if (quantite <= 0) { await removeFromCart(serviceId); return; } // Utiliser la version `async`
@@ -226,13 +234,17 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     else { setIsCartLoading(true); setCartItems(prev => prev.map(item => item.service_id === serviceId ? { ...item, quantite } : item)); setIsCartLoading(false); }
   }, [user, syncCartWithApi, removeFromCart]);
 
+  // Vide tout le panier
   const clearCart = useCallback(async () => {
     console.log("CartContext: clearCart. User:", user ? user.id : "Invité");
     if (user) { await syncCartWithApi('/api/cart', 'DELETE'); } // API DELETE sur /api/cart pour vider
     else { setIsCartLoading(true); setCartItems([]); setIsCartLoading(false); }
   }, [user, syncCartWithApi]);
 
+  // Calcule le total du panier (somme des prix * quantités)
   const getCartTotal = useCallback((): number => cartItems.reduce((total, item) => total + item.prix_unitaire * item.quantite, 0), [cartItems]);
+
+  // Calcule le nombre total d'articles dans le panier
   const getItemCount = useCallback((): number => cartItems.reduce((count, item) => count + item.quantite, 0), [cartItems]);
 
   return (
@@ -252,6 +264,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
+// Hook personnalisé pour utiliser facilement le contexte dans d'autres composants
 export const useCart = (): CartContextType => {
   const context = useContext(CartContext);
   if (context === undefined) { throw new Error('useCart must be used within a CartProvider'); }

@@ -14,8 +14,8 @@ export interface AdminOrderData extends RowDataPacket {
   user_nom: string | null; 
   user_prenom: string | null; 
   user_email: string | null; 
-  order_created_at: Date | string; // Vient de la DB comme Date, sera string après JSON.stringify
-  items?: AdminOrderItemData[]; // Les items seront ajoutés après
+  order_created_at: Date | string; 
+  items?: AdminOrderItemData[]; 
 }
 
 // Interface pour un item de commande
@@ -24,20 +24,14 @@ export interface AdminOrderItemData extends RowDataPacket {
   service_id: number;
   nom_service: string;
   quantite: number;
-  prix_unitaire: string; // Vient de DECIMAL
-  sub_total: string;     // Vient de DECIMAL
+  prix_unitaire: string; 
+  sub_total: string;     
 }
 
 // Fonction pour gérer les requêtes GET vers /api/orders/admin
 export async function GET(req: NextRequest) {
   console.log("API GET /api/orders/admin: Requête pour lister toutes les commandes.");
   try {
-    // TODO: Implémenter une VRAIE vérification de rôle admin ici (via token/session)
-    // Pour l'instant, la route est ouverte mais devrait être protégée.
-    // const isAdmin = await checkAdminRole(req); // Exemple de fonction à créer
-    // if (!isAdmin) {
-    //   return NextResponse.json({ error: 'Accès non autorisé.' }, { status: 403 });
-    // }
 
     // Récupérer toutes les commandes, en joignant avec la table 'user' pour les infos client si disponibles
     const [ordersFromDB] = await db.execute<AdminOrderData[]>(

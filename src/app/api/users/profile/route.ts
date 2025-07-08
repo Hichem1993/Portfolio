@@ -17,6 +17,7 @@ interface ProfileUpdateBody {
   prenom?: string;
 }
 
+// Modif
 export async function PUT(req: NextRequest) {
   const userId = await getCurrentUserId(req);
   console.log("API PUT /api/user/profile - User ID:", userId);

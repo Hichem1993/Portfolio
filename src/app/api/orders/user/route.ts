@@ -1,15 +1,10 @@
 // src/app/api/orders/user/route.ts
 
 // Importations nécessaires depuis Next.js pour gérer les requêtes et réponses API,
-// et depuis mysql2 pour interagir avec la base de données.
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'; // Votre module de connexion à la base de données
 import { RowDataPacket } from 'mysql2'; // Type pour les lignes brutes de la base de données
 
-// --- DÉBUT : LOGIQUE D'AUTHENTIFICATION SERVEUR (PLACEHOLDER - À SÉCURISER) ---
-// Cette fonction tente d'identifier l'utilisateur basé sur un header personnalisé.
-// ATTENTION : Ce n'est PAS une méthode d'authentification sécurisée pour un environnement de production.
-// En production, vous devriez utiliser des tokens JWT vérifiés ou des sessions serveur.
 async function getCurrentUserId(req: NextRequest): Promise<number | null> {
   // Récupère la valeur du header 'X-User-ID' envoyé par le client.
   const userIdFromHeader = req.headers.get('X-User-ID'); 
@@ -31,16 +26,10 @@ async function getCurrentUserId(req: NextRequest): Promise<number | null> {
      console.warn("API /api/orders/user - getCurrentUserId: Header X-User-ID non trouvé ou vide dans la requête.");
   }
   
-  // --- OPTION DE TEST (à décommenter si besoin pour forcer un ID) ---
-  // const TEST_USER_ID = 1; // Remplacez 1 par un ID utilisateur valide de votre table `user` qui a des commandes.
-  // console.log(`API /api/orders/user - getCurrentUserId: FORÇAGE à l'ID ${TEST_USER_ID} pour test.`);
-  // return TEST_USER_ID;
-  // --- FIN OPTION DE TEST ---
 
   console.warn("API /api/orders/user - getCurrentUserId: Retourne null (aucun utilisateur identifié).");
   return null; // Retourne null si l'utilisateur ne peut pas être identifié.
 }
-// --- FIN : LOGIQUE D'AUTHENTIFICATION SERVEUR ---
 
 
 // Interface pour les données d'une commande telles qu'elles viennent de la table 'orders'.

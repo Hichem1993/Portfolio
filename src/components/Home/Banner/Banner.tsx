@@ -52,7 +52,8 @@ const Banner = () => {
           asChild 
           variant="default" 
           size="default" 
-          className="mt-8 bg-[#e30e1b] hover:bg-red-700 text-white text-base px-6 py-3 rounded-md transition duration-300"
+          className="mt-8 bg-[#e30e1b] hover:bg-red-700 text-white text-base px-6 py-3
+          rounded-md transition duration-300"
         >
           <Link href="/contact">Me Contacter</Link>
         </Button>

@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('--- ERREUR DÉTAILLÉE DANS API POST /api/services-crud ---');
-    console.error(error); // Log l'erreur complète pour le débogage
+    console.error(error); 
     console.error('--- FIN ERREUR DÉTAILLÉE ---');
     
     let errorMessage = 'Erreur serveur lors de l\'ajout du service.';

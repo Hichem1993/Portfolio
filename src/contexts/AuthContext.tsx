@@ -1,51 +1,54 @@
 // src/contexts/AuthContext.tsx // Assurez-vous que ce chemin est celui utilisé dans vos imports
 
-"use client";
+"use client"; // Indique que ce composant est côté client (Next.js 13+)
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Hook pour la navigation côté client dans Next.js
 
-// Interface pour l'utilisateur
+// Interface décrivant la forme de l'objet utilisateur
 interface User {
   id: number;
   email: string;
-  nom?: string;
-  prenom?: string;
-  role: string;
+  nom?: string;      // Propriété optionnelle
+  prenom?: string;   // Propriété optionnelle
+  role: string;      // Par exemple "Admin", "User", etc.
 }
 
-// Interface pour la valeur du contexte
+// Interface décrivant ce que fournit le contexte d'authentification
 interface AuthContextType {
-  user: User | null;
-  login: (userData: User) => void;
-  logout: () => void;
-  isLoading: boolean;
-  isAdmin: () => boolean;
+  user: User | null;               // L'utilisateur connecté ou null si pas connecté
+  login: (userData: User) => void; // Fonction pour connecter un utilisateur
+  logout: () => void;              // Fonction pour déconnecter l'utilisateur
+  isLoading: boolean;              // Indique si l'authentification est en cours (ex: récupération locale)
+  isAdmin: () => boolean;          // Fonction pour vérifier si l'utilisateur est admin
 }
 
-// 1. Création du Contexte - Assurez-vous que ce 'AuthContext' est bien celui utilisé plus bas
+// 1. Création du Contexte React, avec valeur par défaut undefined
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// 2. Création du Provider - Assurez-vous que 'AuthProvider' est bien le nom exporté et importé dans layout.tsx
+// 2. Création du Provider (composant qui enveloppe l'app et fournit le contexte)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Commence en chargement
-  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);       // Stocke l'utilisateur connecté
+  const [isLoading, setIsLoading] = useState(true);          // Indique si on est en train de récupérer l'user
+  const router = useRouter();                                // Hook Next.js pour rediriger l'utilisateur
 
   useEffect(() => {
-    // Charger l'utilisateur depuis localStorage au montage initial
+    // Au premier rendu, on essaye de récupérer l'utilisateur dans le localStorage
     try {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
+        // Si trouvé, on parse le JSON et on met à jour l'état
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
+      // En cas d'erreur (ex: JSON invalide), on log l'erreur et on supprime l'item corrompu
       console.error("AuthProvider: Failed to parse user from localStorage", error);
       localStorage.removeItem('user');
     }
-    setIsLoading(false); // Fin du chargement initial
-  }, []); // S'exécute une seule fois au montage
+    setIsLoading(false); // On indique que la récupération initiale est terminée
+  }, []); // [] signifie que cet effet ne se lance qu'une seule fois au montage du composant
 
+  // Fonction pour connecter un utilisateur : on met à jour l'état et on sauvegarde dans localStorage
   const login = (userData: User) => {
     setUser(userData);
     try {
@@ -55,38 +58,35 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  // Fonction pour déconnecter l'utilisateur : on supprime l'état et localStorage puis on redirige
   const logout = async () => {
     setUser(null);
     try {
       localStorage.removeItem('user');
-      // Optionnel: si vous avez une API de déconnexion
-      // await fetch('/api/logout', { method: 'POST' }); 
     } catch (error) {
       console.error("AuthProvider: Failed during logout process", error);
     }
-    router.push('/'); // Rediriger après la déconnexion
+    router.push('/'); // Redirection vers la page d'accueil ou page de login
   };
 
+  // Fonction qui retourne vrai si l'utilisateur est admin (basée sur son rôle)
   const isAdmin = (): boolean => {
     return user?.role === 'Admin';
   };
 
-  // Fournir la valeur du contexte
+  // Le Provider fournit ces valeurs à tous les composants enfants qui consomment ce contexte
   return (
-    // Utilise bien le 'AuthContext' défini ci-dessus ?
     <AuthContext.Provider value={{ user, login, logout, isLoading, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// 3. Hook personnalisé pour consommer le contexte - Assurez-vous que 'useAuth' est le nom exporté et importé
+// 3. Hook personnalisé pour accéder facilement au contexte Auth dans les composants
 export const useAuth = (): AuthContextType => {
-  // Utilise bien le 'AuthContext' défini ci-dessus ?
   const context = useContext(AuthContext);
   if (context === undefined) {
-    // Cette erreur signifie que ce composant (ou celui qui appelle useAuth)
-    // n'est pas un descendant de <AuthProvider>
+    // Si on utilise useAuth hors d'un AuthProvider, on lance une erreur claire
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       'SELECT id FROM user WHERE email = ?',
       [email]
     );
-    // @ts-ignore - Ignore l'erreur TypeScript ici, ou utilisez RowDataPacket[] pour typer correctement
+    // Message d'erreur
     if (existingUserRows.length > 0) {
       return NextResponse.json({ error: 'Cet email est déjà utilisé.' }, { status: 400 })
     }

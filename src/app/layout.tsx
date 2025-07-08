@@ -22,7 +22,7 @@ import { CartProvider } from "@/contexts/CartContext";
 // Configuration de la police Montserrat avec les options souhaitées
 const montserrat = Montserrat({
   subsets: ['latin'], // Sous-ensemble des caractères latins
-  weight: ['300', '400', '500', '600', '700', '800'], // Poids de police inclus
+  weight: ['300', '400', '500', '600', '700', '800'], // taille de police inclus
   variable: '--font-montserrat', // Variable CSS personnalisée associée à cette police
 });
 

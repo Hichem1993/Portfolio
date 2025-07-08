@@ -49,24 +49,29 @@ export async function POST(req: NextRequest) {
 }
 
 
+
+
 // FONCTION GET pour lister tous les messages de contact
 export async function GET(req: NextRequest) {
-  console.log("API GET /api/contact: Requête reçue pour lister tous les messages de contact.");
   try {
-    // TODO: Sécuriser cette route pour qu'elle ne soit accessible qu'aux administrateurs
-    // via une VRAIE vérification de session/token serveur.
-
+    // Exécution de la requête SQL pour récupérer les messages de contact depuis la base de données.
+    // On récupère les colonnes : id, nom, prénom, téléphone, objet, email, message, et la date d'envoi.
+    // Les résultats sont triés par date d'envoi décroissante (les plus récents en premier).
     const [messagesFromDB] = await db.execute<ContactMessage[]>(
-      'SELECT id, nom, prenom, telephone, objet, email, message, date_envoyee FROM contact ORDER BY date_envoyee DESC' // Les plus récents en premier
+      'SELECT id, nom, prenom, telephone, objet, email, message, date_envoyee FROM contact ORDER BY date_envoyee DESC'
     );
     
+    // On stocke les messages récupérés dans une variable pour éventuellement pouvoir les manipuler.
     const messages = messagesFromDB; 
 
-    console.log(`API GET /api/contact: ${messages.length} messages trouvés.`);
+    // On retourne la liste des messages au format JSON dans la réponse HTTP.
     return NextResponse.json(messages);
 
   } catch (error) {
+    // En cas d'erreur (ex : problème avec la base de données), on loggue l'erreur dans la console serveur.
     console.error('Erreur API GET /api/contact:', error);
+
+    // Puis on renvoie une réponse JSON avec un message d'erreur et un status 500 (erreur serveur).
     return NextResponse.json(
       { error: 'Erreur serveur lors de la récupération des messages de contact.' },
       { status: 500 }
