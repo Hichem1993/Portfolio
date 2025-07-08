@@ -1,7 +1,7 @@
 import AboutEducation from "@/components/a-propos/about-education"
 import AboutSkills from "@/components/a-propos/about-skills"
 import AboutExperience from "@/components/a-propos/Experience"
-import AboutHero from "@/components/a-propos/hero"
+import AboutHero from "@/components/a-propos/Hero"
 import AboutProfile from "@/components/a-propos/Profil"
 import type { Metadata } from "next"
 
