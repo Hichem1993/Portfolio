@@ -5,7 +5,6 @@ import AboutHero from "@/components/a-propos/Hero"
 import AboutProfile from "@/components/a-propos/Profil"
 import type { Metadata } from "next"
 
-
 export const metadata: Metadata = {
   title: "À propos - Hichem Ben Ayed | UI Designer & Développeur Front-End",
   description:
